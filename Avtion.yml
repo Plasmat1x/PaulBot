@@ -1,0 +1,3 @@
+              
+- name: Plantuml for markdown         
+  uses: alessandro-marcantoni/puml-markdown@v0.1.1
