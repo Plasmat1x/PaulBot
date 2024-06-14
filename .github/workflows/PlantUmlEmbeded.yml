@@ -1,4 +1,0 @@
-jobs:
-  embed-puml-markdown:
-    - name: Embed PlantUML inside Markdown
-      uses: alessandro-marcantoni/puml-markdown@v0.1.1
