@@ -39,20 +39,22 @@
 
     actor TaskGiver
     actor Executor
-    actor DiscordServer
+    actor Administrator
     
     rectangle Bot{
         usecase SendTask
         usecase Polling
+        usecase ProcessTask
         usecase GetTask
+        usecase ReadLog
     }
 
     TaskGiver -- SendTask
     Executor -- GetTask
-    SendTask -- DiscordServer
-    GetTask -- DiscordServer
-    SendTask --> Polling
-    Polling --> GetTask
+    SendTask --> ProcessTask : include
+    ProcessTask --> Polling : include 
+    Executor -- Polling
+    Administrator -- ReadLog
 
 @endmul
 ```
@@ -112,13 +114,20 @@ Initialization : Connect / Connection
 
 [*] --> Initialization
 Initialization --> WaitingCommand : Init / Load Config
-WaitingCommand --> CreateTask : InputCommand / Create Task
-CreateTask --> PollingExecutor : Created / Start polling
-PollingExecutor --> WaitingCommand : NotFound / Reject
-UpdateStatus --> WaitingCommand : TaskCompleted
-WaitingCommand --> SendStatusResult : InputCommand / Send Status
+
+WaitingCommand --> ProcessTask : TaskCommand / CreateTask
+WaitingCommand --> ProcessTask : StatusCommand / GetTaskStatus
 SendStatusResult --> WaitingCommand : StatusSended
-PollingExecutor --> UpdateStatus : ExecutorFinded
+ProcessTask --> CheckTask : SendTaskStatus
+CheckTask --> SendStatusResult : GetTaskStatus
+ProcessTask --> CreateTask : TaskCreation
+CreateTask --> ProcessTask : TaskCreated
+UpdateStatus --> ProcessTask : TaskCompleted
+ProcessTask --> WaitingCommand : TaskCompleted
+ProcessTask --> UpdateStatus : ExecutorFinded / TaskStatusNotCompleted
+ProcessTask --> UpdateStatus : ExecutorNotFinded / TaskStatusCompleted
+ProcessTask --> PollingExecutor : Created / Start polling
+
 WaitingCommand --> Exit : Exit
 Exit --> [*]
 @enduml
