@@ -1,0 +1,24 @@
+@startuml UseCase
+    Title Usecase
+    left to right direction
+
+    actor TaskGiver
+    actor Executor
+    actor Administrator
+    
+    rectangle Bot{
+        usecase SendTask
+        usecase Searching
+        usecase ProcessTask
+        usecase GetTask
+        usecase ReadLog
+    }
+
+    TaskGiver -- SendTask
+    Executor -- GetTask
+    SendTask --> ProcessTask : include
+    ProcessTask --> Searching : include 
+    Executor -- Searching
+    Administrator -- ReadLog
+
+@endmul

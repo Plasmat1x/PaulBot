@@ -1,0 +1,44 @@
+@startuml Components
+    Title Components
+
+    package "Presenter"{
+        [CommandReader]
+        [OutputSystem]
+    }
+
+    package "Logic"{
+        [ICommandReader]
+        [IOutputSystem]
+        [CommandProcessor]
+        [IPollingSystem]
+        [IStorage]
+        [TaskProcessor]
+    }
+
+    package "Infrastructure"{
+        [Storage]
+    }
+
+    package "PollingSystem"{
+        [ChannelMessage]
+        [PersonalMessage]
+        [AssignAlgorithm]
+    }
+
+    [CommandReader] --> [ICommandReader]
+    [OutputSystem] --> [IOutputSystem]
+
+    [ICommandReader] --> [CommandProcessor] 
+    [IOutputSystem] --> [CommandProcessor]
+    [CommandProcessor] --> [TaskProcessor]
+    [IPollingSystem] --> [TaskProcessor]
+    [IStorage] --> [IPollingSystem]
+    [IStorage] --> [TaskProcessor]
+
+    [ChannelMessage] --|> [IPollingSystem]
+    [PersonalMessage] --|> [IPollingSystem]
+    [AssignAlgorithm] --|> [IPollingSystem]
+
+    [Storage] --|> [IStorage]
+
+@enduml

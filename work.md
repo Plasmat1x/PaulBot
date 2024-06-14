@@ -8,6 +8,14 @@
 4. [x] описание основных компонентов системы (+-)
 5. [ ] описать состояния компонентов, режимы работы , этапы
 
+## ...
+
+* Кто пишет компонент тот пишет и тест для него. Вы знаете как компонент работает вам будет легче написать тест
+* Берете за раз один компонент. Сделали, берете следующий который свободен
+* Недопускаем работы 2 и более человек над одним файлом 
+* Документация не готова, в процессе будет меняться. Над документацией работают все, в качестве финалльного полиша доведем документацию в приемлемый ввид
+* Следует Код гайдлайну.
+
 ## Сценарий
 
 1. пользователь с задачей пишет в `дискорд` задачу `командой`
@@ -31,6 +39,7 @@
 * `закрытие` - установка задаче статус выполнено
 
 ### возможные проблемы
+
 * 4.A 
   * Преймущества: Быстрый поиск исполнителей, приватность
   * Недостатки: Спам, необходимость разрешить конфликты, управление и мониторинг
@@ -92,120 +101,8 @@
 
 ---
 ## Диагрмаки
-```plantuml
-@startuml UseCase
-    Title Usecase
-    left to right direction
 
-    actor TaskGiver
-    actor Executor
-    actor Administrator
-    
-    rectangle Bot{
-        usecase SendTask
-        usecase Searching
-        usecase ProcessTask
-        usecase GetTask
-        usecase ReadLog
-    }
-
-    TaskGiver -- SendTask
-    Executor -- GetTask
-    SendTask --> ProcessTask : include
-    ProcessTask --> Searching : include 
-    Executor -- Searching
-    Administrator -- ReadLog
-
-@endmul
-```
-```plantuml
-@startuml Components
-    Title Components
-
-    package "Presenter"{
-        [CommandReader]
-        [OutputSystem]
-    }
-
-    package "Logic"{
-        [ICommandReader]
-        [IOutputSystem]
-        [CommandProcessor]
-        [IPollingSystem]
-        [IStorage]
-        [TaskProcessor]
-    }
-
-    package "Infrastructure"{
-        [Storage]
-    }
-
-    package "PollingSystem"{
-        [ChannelMessage]
-        [PersonalMessage]
-        [AssignAlgorithm]
-    }
-
-    [CommandReader] --> [ICommandReader]
-    [OutputSystem] --> [IOutputSystem]
-
-    [ICommandReader] --> [CommandProcessor] 
-    [IOutputSystem] --> [CommandProcessor]
-    [CommandProcessor] --> [TaskProcessor]
-    [IPollingSystem] --> [TaskProcessor]
-    [IStorage] --> [IPollingSystem]
-    [IStorage] --> [TaskProcessor]
-
-    [ChannelMessage] --|> [IPollingSystem]
-    [PersonalMessage] --|> [IPollingSystem]
-    [AssignAlgorithm] --|> [IPollingSystem]
-
-    [Storage] --|> [IStorage]
-
-@enduml
-```
-
-```plantuml
-@startuml State
-Title State bot?
-
-Initialization : Enrty / LoadConfig
-Initialization : Connect / Connection
-
-[*] --> Initialization
-Initialization --> WaitingCommand : Init / Load Config
-
-WaitingCommand --> ProcessTask : TaskCommand / CreateTask
-WaitingCommand --> ProcessTask : StatusCommand / GetTaskStatus
-SendStatusResult --> WaitingCommand : StatusSended
-ProcessTask --> CheckTask : SendTaskStatus
-CheckTask --> SendStatusResult : GetTaskStatus
-ProcessTask --> CreateTask : TaskCreation
-CreateTask --> ProcessTask : TaskCreated
-UpdateStatus --> ProcessTask : TaskCompleted
-ProcessTask --> WaitingCommand : TaskCompleted
-ProcessTask --> UpdateStatus : ExecutorFinded / TaskStatusNotCompleted
-ProcessTask --> UpdateStatus : ExecutorNotFinded / TaskStatusCompleted
-ProcessTask --> PollingExecutor : Created / Start polling
-
-WaitingCommand --> Exit : Exit
-Exit --> [*]
-
-@enduml
-```
-
-```plantuml
-@startuml
-Title States of Task
-
-state Searching
-state Pending
-state Completed
-
-[*] --> Searching
-Searching --> Pending: AssignExecutor
-Pending --> Completed: CompleteTask
-Completed --> [*]
-
-@enduml
-```
+![UseCase](./Doc/puml.out/UseCase.svg)
+![Components](./Doc/puml.out/Components.svg)
+![TaskState](./Doc/puml.out/TaskState.svg)
+![BotState](./Doc/puml.out/BotState.svg)

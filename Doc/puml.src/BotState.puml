@@ -1,0 +1,26 @@
+@startuml BotState
+Title State bot?
+
+Initialization : Enrty / LoadConfig
+Initialization : Connect / Connection
+
+[*] --> Initialization
+Initialization --> WaitingCommand : Init / Load Config
+
+WaitingCommand --> ProcessTask : TaskCommand / CreateTask
+WaitingCommand --> ProcessTask : StatusCommand / GetTaskStatus
+SendStatusResult --> WaitingCommand : StatusSended
+ProcessTask --> CheckTask : SendTaskStatus
+CheckTask --> SendStatusResult : GetTaskStatus
+ProcessTask --> CreateTask : TaskCreation
+CreateTask --> ProcessTask : TaskCreated
+UpdateStatus --> ProcessTask : TaskCompleted
+ProcessTask --> WaitingCommand : TaskCompleted
+ProcessTask --> UpdateStatus : ExecutorFinded / TaskStatusNotCompleted
+ProcessTask --> UpdateStatus : ExecutorNotFinded / TaskStatusCompleted
+ProcessTask --> PollingExecutor : Created / Start polling
+
+WaitingCommand --> Exit : Exit
+Exit --> [*]
+
+@enduml
