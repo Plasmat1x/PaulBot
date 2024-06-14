@@ -5,6 +5,8 @@ VisualStudioVersion = 17.8.34322.80
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaulBot", "PaulBot\PaulBot.csproj", "{833BD70C-381F-468E-B98E-BAEF8E5FE6C3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaulBot_Test", "PaulBot_Test\PaulBot_Test.csproj", "{BEFB9E1D-5A2E-4E2F-A908-01156E065622}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{833BD70C-381F-468E-B98E-BAEF8E5FE6C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{833BD70C-381F-468E-B98E-BAEF8E5FE6C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{833BD70C-381F-468E-B98E-BAEF8E5FE6C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BEFB9E1D-5A2E-4E2F-A908-01156E065622}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BEFB9E1D-5A2E-4E2F-A908-01156E065622}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BEFB9E1D-5A2E-4E2F-A908-01156E065622}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BEFB9E1D-5A2E-4E2F-A908-01156E065622}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
