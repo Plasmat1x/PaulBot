@@ -58,19 +58,47 @@
 ```
 ```plantuml
 @startuml Components1
-    Title Components 
-    package "Bot"{
+    Title Components
+
+    package "Presenter"{
         [CommandReader]
-        [CommandProcessor]
-        [PollingSystem]
         [OutputSystem]
+    }
+
+    package "Logic"{
+        [ICommandReader]
+        [IOutputSystem]
+        [CommandProcessor]
+        [IPollingSystem]
+        [IStorage]
+        [TaskProcessor]
+    }
+
+    package "Infrastructure"{
         [Storage]
     }
 
-    [CommandReader] --> [CommandProcessor] 
-    [CommandProcessor] --> [PollingSystem]
-    [OutputSystem] --> [CommandProcessor]
-    [Storage] --> [PollingSystem]
+    package "PollingSystem"{
+        [ChannelMessage]
+        [PersonalMessage]
+        [AssignAlgorithm]
+    }
+
+    [CommandReader] --> [ICommandReader]
+    [OutputSystem] --> [IOutputSystem]
+
+    [ICommandReader] --> [CommandProcessor] 
+    [IOutputSystem] --> [CommandProcessor]
+    [CommandProcessor] --> [TaskProcessor]
+    [IPollingSystem] --> [TaskProcessor]
+    [IStorage] --> [IPollingSystem]
+    [IStorage] --> [TaskProcessor]
+
+    [ChannelMessage] --> [IPollingSystem]
+    [PersonalMessage] --> [IPollingSystem]
+    [AssignAlgorithm] --> [IPollingSystem]
+
+    [Storage] --> [IStorage]
 
 @enduml
 ```
