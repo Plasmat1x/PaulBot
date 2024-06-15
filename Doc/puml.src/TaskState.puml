@@ -1,14 +1,10 @@
-@startuml
+@startuml TaskState
 
 Title States of Task
 
-state Searching
-state Pending
-state Completed
-
 [*] --> Searching
-Searching --> Pending: AssignExecutor
-Pending --> Completed: CompleteTask
+Searching --> Process: AssignExecutor
+Process --> Completed: CompleteTask
 Completed --> [*]
 
 @enduml

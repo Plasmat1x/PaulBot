@@ -2,43 +2,42 @@
     Title Components
 
     package "Presenter"{
-        [CommandReader]
-        [OutputSystem]
+        [Input]
+        [Output]
     }
 
     package "Logic"{
-        [ICommandReader]
-        [IOutputSystem]
-        [CommandProcessor]
-        [IPollingSystem]
+        [IInput]
+        [IOutput]
+        [CommandParser]
+        [IExecutorFinder]
         [IStorage]
-        [TaskProcessor]
+        [ObjectiveProcessor]
     }
 
     package "Infrastructure"{
         [Storage]
     }
 
-    package "PollingSystem"{
+    package "ExecutorFinder"{
         [ChannelMessage]
         [PersonalMessage]
         [AssignAlgorithm]
     }
 
-    [CommandReader] --> [ICommandReader]
-    [OutputSystem] --> [IOutputSystem]
+    [Input] --|> [IInput]
+    [Output] --|> [IOutput]
 
-    [ICommandReader] --> [CommandProcessor] 
-    [IOutputSystem] --> [CommandProcessor]
-    [CommandProcessor] --> [TaskProcessor]
-    [IPollingSystem] --> [TaskProcessor]
-    [IStorage] --> [IPollingSystem]
-    [IStorage] --> [TaskProcessor]
+    [IInput] --> [CommandParser] 
+    [IOutput] --> [CommandParser]
+    [CommandParser] --> [ObjectiveProcessor]
+    [IExecutorFinder] --> [ObjectiveProcessor]
+    [IStorage] --> [ObjectiveProcessor]
     
 
-    [ChannelMessage] --|> [IPollingSystem]
-    [PersonalMessage] --|> [IPollingSystem]
-    [AssignAlgorithm] --|> [IPollingSystem]
+    [ChannelMessage] --|> [IExecutorFinder]
+    [PersonalMessage] --|> [IExecutorFinder]
+    [AssignAlgorithm] --|> [IExecutorFinder]
 
     [Storage] --|> [IStorage]
 @enduml
