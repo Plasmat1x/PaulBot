@@ -1,13 +1,13 @@
 ﻿namespace PaulBot.Models;
 
-enum Status
+public enum Status
 {
   Completed,
   Assigning,
   Processing,
 }
 
-class Objective
+public class Objective
 {
   public Objective(int _id, string _objectiveInfo, string _objectiveCreatorTag, TimeSpan _expire)
   {
