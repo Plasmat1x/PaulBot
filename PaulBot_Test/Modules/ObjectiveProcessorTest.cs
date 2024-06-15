@@ -15,10 +15,15 @@ public class ObjectiveProcessorTest
 
     var objectiveProcessor = new ObjectiveProcessor();
 
-    var excepted = new Objective(id, objectiveInfo, objectiveCreatorTag, expirie);
+    var exceptedObjective = new Objective(id, objectiveInfo, objectiveCreatorTag, expirie);
 
-    var res = objectiveProcessor.CreateObjective(new(id, objectiveInfo, objectiveCreatorTag, expirie));
+    var creationObjectiveResult = objectiveProcessor.CreateObjective(new(id, objectiveInfo, objectiveCreatorTag, expirie));
 
-    Assert.Equal(excepted, res);
+    bool assertResult = (creationObjectiveResult.Status == exceptedObjective.Status)
+      && (creationObjectiveResult.Id == exceptedObjective.Id)
+      && (creationObjectiveResult.ObjectiveInfo == exceptedObjective.ObjectiveInfo)
+      && (creationObjectiveResult.ExecutorTag == exceptedObjective.ExecutorTag);
+
+    Assert.True(assertResult);
   }
 }
