@@ -25,7 +25,7 @@ public class ObjectiveTest
   }
 
   [Fact]
-  public void with_status_Should_return_new_objective_With_updated_status()
+  public void With_status_Should_return_new_objective_With_updated_status()
   {
     // Arrange
     var objective = new Objective(1, "Test", "Creator123", DateTime.UtcNow.AddHours(1));
