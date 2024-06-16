@@ -9,7 +9,7 @@ public class ObjectiveProcessorTest
 {
 
   [Fact]
-  public void create_objective_With_objectiveprocessor()
+  public async Task create_objective_With_objectiveprocessor()
   {
 
     // Arrange
@@ -24,7 +24,7 @@ public class ObjectiveProcessorTest
     var result = await processor.CreateObjectiveAsync(objectiveOptions);
 
     // Assert
-    storageMock.Verify(s => s.CreateAsync(It.IsAny<Objective>()), Times.Once);
+    storageMock.Verify(s => s.CreateAsync(It.IsAny<Objective>(), CancellationToken.None), Times.Once);
     loggerMock.Verify(l => l.Log("Objective created"), Times.Once);
 
     Assert.NotNull(result);

@@ -23,33 +23,76 @@ public class ObjectiveProcessor
     _objectiveOptions.objectiveCreatorTag,
     _objectiveOptions.expire);
 
-    p_storage.CreateAsync(objective);
-    p_logger.Log("objective created");
+    objective = await p_storage.CreateAsync(objective);
+    p_logger.Log($"objective created with id: {objective.Id}");
 
     return objective;
   }
 
-  public async Task<ObjectiveProcessor> UpdateStatusAsync(int _id, Status _status, CancellationToken _cancelationToken = default)
+  public async Task<Objective> UpdateStatusAsync(int _id, Status _status, CancellationToken _cancelationToken = default)
   {
-    var objective = p_storage.ReadAsync(_id).Result;
+    var objective = await p_storage.ReadAsync(_id);
 
     if(objective == null)
-      return this;
+    {
+      p_logger.Log($"objective {_id} not found");
+      return null;
+    }
 
-    objective.SetStatus(_status);
 
-    p_storage.UpdateAsync(objective);
+    objective = objective.SetStatus(_status);
+    objective = await p_storage.UpdateAsync(objective);
+    p_logger.Log($"Objective updated with status {objective.Status}");
 
-    return this;
-
-    throw new NotImplementedException();
+    return objective;
   }
 
-  public async Task<ObjectiveProcessor> AssignExecutorAsync(int _id, string _executorTag, CancellationToken _cancelationToken = default) => this;
+  public async Task<Objective> AssignExecutorAsync(int _id, string _executorTag, CancellationToken _cancelationToken = default)
+  {
+    var objective = await p_storage.ReadAsync(_id);
 
-  public async Task<Objective> CheckStatusAsync(int _id, CancellationToken _cancelationToken = default) => throw new NotImplementedException();
+    if(objective == null)
+    {
+      p_logger.Log($"objective {_id} not found");
+      return null;
+    }
 
-  public async Task<ObjectiveProcessor> CompleteObjectiveAsync(int _id, CancellationToken _cancelationToken = default) => this;
+
+    objective = objective.SetExecutor(_executorTag);
+    objective = await p_storage.UpdateAsync(objective);
+    p_logger.Log($"Objective updated with executor: {objective.ExecutorTag}");
+
+    return objective;
+  }
+
+  public async Task<Objective> CheckStatusAsync(int _id, CancellationToken _cancelationToken = default)
+  {
+    var objective = await p_storage.ReadAsync(_id);
+
+    if(objective == null)
+    {
+      p_logger.Log($"objective {_id} not found");
+      return null;
+    }
+
+    return objective;
+  }
+
+  public async Task<Objective> CompleteObjectiveAsync(int _id, CancellationToken _cancelationToken = default)
+  {
+    var objective = await p_storage.ReadAsync(_id);
+
+    if(objective == null)
+    {
+      p_logger.Log($"objective {_id} not found");
+      return null;
+    }
+
+    objective = objective.SetStatus(Status.Completed);
+    objective = await p_storage.UpdateAsync(objective);
+
+    return objective;
+  }
 }
 
 public record ObjectiveOptions(int id, string taskInfo, string objectiveCreatorTag, DateTime expire);
