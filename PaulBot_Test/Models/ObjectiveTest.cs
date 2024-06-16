@@ -39,7 +39,7 @@ public class ObjectiveTest
   }
 
   [Fact]
-  public void WithExecutor_ShouldReturnNewObjectiveWithUpdatedExecutor()
+  public void With_executor_Should_return_new_objective_With_updated_executor()
   {
     // Arrange
     var objective = new Objective(1, "Test", "Creator123", DateTime.UtcNow.AddHours(1));
