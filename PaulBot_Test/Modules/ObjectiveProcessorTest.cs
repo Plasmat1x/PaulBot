@@ -1,29 +1,36 @@
-﻿using PaulBot.Models;
+﻿using Moq;
+
+using PaulBot.Models;
 using PaulBot.Module.ObjectiveProcessor;
+using PaulBot.Modules.Interfaces;
 
 namespace PaulBot_Test.Modules;
 public class ObjectiveProcessorTest
 {
 
   [Fact]
-  public void create_objective_With_objectiveprocessor()
+  public async Task create_objective_With_objectiveprocessor()
   {
-    int id = 1;
-    string objectiveInfo = "Test creation";
-    string objectiveCreatorTag = "DiscordUser";
-    TimeSpan expirie = TimeSpan.FromMilliseconds(10);
 
-    var objectiveProcessor = new ObjectiveProcessor();
+    // Arrange
+    var storageMock = new Mock<IStorage<Objective>>();
+    var loggerMock = new Mock<ILogger>();
+    var pollingSystemMock = new Mock<IPollingSystem>();
+    var expire = DateTime.UtcNow.AddHours(1);
+    var objectiveOptions = new ObjectiveOptions(1, "Test Task", "CreatorTag", expire);
+    var processor = new ObjectiveProcessor(storageMock.Object, pollingSystemMock.Object, loggerMock.Object);
 
-    var exceptedObjective = new Objective(id, objectiveInfo, objectiveCreatorTag, expirie);
+    // Act
+    var result = await processor.CreateObjectiveAsync(objectiveOptions);
 
-    var creationObjectiveResult = objectiveProcessor.CreateObjective(new(id, objectiveInfo, objectiveCreatorTag, expirie));
+    // Assert
+    storageMock.Verify(s => s.CreateAsync(It.IsAny<Objective>(), CancellationToken.None), Times.Once);
+    loggerMock.Verify(l => l.Log("Objective created"), Times.Once);
 
-    bool assertResult = (creationObjectiveResult.Status == exceptedObjective.Status)
-      && (creationObjectiveResult.Id == exceptedObjective.Id)
-      && (creationObjectiveResult.ObjectiveInfo == exceptedObjective.ObjectiveInfo)
-      && (creationObjectiveResult.ExecutorTag == exceptedObjective.ExecutorTag);
-
-    Assert.True(assertResult);
+    Assert.NotNull(result);
+    Assert.Equal(1, result.Id);
+    Assert.Equal("Test Task", result.ObjectiveInfo);
+    Assert.Equal("CreatorTag", result.ObjectiveCreatorTag);
+    Assert.Equal(expire, result.Expire);
   }
 }
