@@ -2,17 +2,17 @@
     Title Usecase
     left to right direction
 
-    actor ObjectiveProducer
-    actor ObjectiveExecutor
+    actor "Objective Producer" as ObjectiveProducer
+    actor "Objective Executor" as ObjectiveExecutor
     actor Bot
     
     rectangle {
-        usecase FindExecutor
-        usecase CreateObjective
-        usecase AssignIdentificator
-        usecase RequestStatus
-        usecase GetObjective
-        usecase NotifyStatus
+        usecase "Find Executor" as FindExecutor
+        usecase "Create Objective" as CreateObjective
+        usecase "Assign Identificator" as AssignIdentificator
+        usecase "Request Status" as RequestStatus
+        usecase "Get Objective" as GetObjective
+        usecase "Notify Status" as NotifyStatus
     }
 
     ObjectiveProducer -- CreateObjective

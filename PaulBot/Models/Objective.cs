@@ -59,6 +59,3 @@ public class Objective
   // Тег создателя Objective
   public string ObjectiveCreatorTag { get; init; }
 }
-
-
-
