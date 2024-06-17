@@ -1,0 +1,12 @@
+@startuml ExecutorFinder
+
+Title "Executor finder"
+
+[*] --> Ready
+
+Ready --> Searching
+Searching --> Finded
+
+Finded --> [*]
+
+@enduml

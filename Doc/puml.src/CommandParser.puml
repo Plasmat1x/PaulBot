@@ -1,0 +1,7 @@
+@startuml
+
+[*] --> GetCommand
+GetCommand --> SplitCommand
+SplitCommand --> [*]
+
+@enduml
