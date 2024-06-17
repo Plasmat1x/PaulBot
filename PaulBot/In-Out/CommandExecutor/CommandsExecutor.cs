@@ -1,4 +1,5 @@
 ﻿using PaulBot.Commands;
+using PaulBot.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;

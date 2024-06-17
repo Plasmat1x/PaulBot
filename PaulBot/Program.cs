@@ -1,6 +1,7 @@
 ﻿using PaulBot.Commands;
 using PaulBot.Writers;
 using PaulBot.CommandExecutor;
+using PaulBot.Interfaces;
 
 namespace PaulBot
 {
