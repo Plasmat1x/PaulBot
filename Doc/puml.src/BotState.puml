@@ -5,19 +5,19 @@ Initialization : Enrty / LoadConfig
 Initialization : Connect / Connection
 
 [*] --> Initialization
-Initialization --> WaitingCommand : Init / Load Config
 
-WaitingCommand --> ProcessTask : TaskCommand / CreateTask
-WaitingCommand --> ProcessTask : StatusCommand / GetTaskStatus
+Initialization --> WaitingCommand : Init / Configure
+WaitingCommand --> ProcessTask : Input / CreateTask
+WaitingCommand --> ProcessTask : Input / Status
 SendStatusResult --> WaitingCommand : StatusSended
 ProcessTask --> CheckTask : SendTaskStatus
 CheckTask --> SendStatusResult : GetTaskStatus
-ProcessTask --> CreateTask : TaskCreation
-CreateTask --> ProcessTask : TaskCreated
-UpdateStatus --> ProcessTask : TaskCompleted
-ProcessTask --> WaitingCommand : TaskCompleted
-ProcessTask --> UpdateStatus : ExecutorFinded / TaskStatusNotCompleted
-ProcessTask --> UpdateStatus : ExecutorNotFinded / TaskStatusCompleted
+ProcessTask --> CreateTask : Creation / Create
+CreateTask --> ProcessTask : Created
+UpdateStatus --> ProcessTask : Completed
+ProcessTask --> WaitingCommand : Completed
+ProcessTask --> UpdateStatus : Finded / Complete
+ProcessTask --> UpdateStatus : NotFinded / Complete
 ProcessTask --> PollingExecutor : Created / Start polling
 
 WaitingCommand --> Exit : Exit

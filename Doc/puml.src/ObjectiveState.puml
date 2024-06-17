@@ -1,0 +1,11 @@
+@startuml TaskState
+
+Title States of Task
+
+[*] --> Created
+Created --> AssiginExecutor
+AssiginExecutor --> Process
+Process --> Completed
+Completed --> [*]
+
+@enduml

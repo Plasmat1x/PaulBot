@@ -2,23 +2,27 @@
     Title Usecase
     left to right direction
 
-    actor TaskGiver
-    actor Executor
-    actor Administrator
+    actor ObjectiveProducer
+    actor ObjectiveExecutor
+    actor Bot
     
-    rectangle Bot{
-        usecase SendTask
-        usecase Searching
-        usecase ProcessTask
-        usecase GetTask
-        usecase ReadLog
+    rectangle {
+        usecase FindExecutor
+        usecase CreateObjective
+        usecase AssignIdentificator
+        usecase RequestStatus
+        usecase GetObjective
+        usecase NotifyStatus
     }
 
-    TaskGiver -- SendTask
-    Executor -- GetTask
-    SendTask --> ProcessTask : include
-    ProcessTask --> Searching : include 
-    Executor -- Searching
-    Administrator -- ReadLog
+    ObjectiveProducer -- CreateObjective
+    Bot -- CreateObjective
+    ObjectiveExecutor -- GetObjective
+    Bot -- FindExecutor 
+    Bot -- NotifyStatus
+    ObjectiveProducer -- RequestStatus
+    RequestStatus --> NotifyStatus : include
+    FindExecutor -- ObjectiveExecutor
+    Bot -- AssignIdentificator
 
 @endmul
